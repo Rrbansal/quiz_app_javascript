@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="ml-48 mt-10">
+    <h1 class="text-4xl text-lime-700" >MY QUIZ APP</h1>
+    <button class="border-solid border-2 border-black rounded-md text-2xl mt-10 p-2 bg-lime-700" id="start" onclick=starttest()>start quiz</button>
+    <div id="questioncontainer"></div>
+    <div id="optioncontainer"></div>
+    <div id="scorevalue">0</div>
+    <button class="border-solid border-2 border-black rounded-md p-1 bg-lime-700" id="ne" onclick=next()>next</button>
+    <br>
+    <button class="border-solid border-2 border-black text-2xl rounded-md mt-5 p-2 bg-lime-700" id="res" onclick=again()>restart</button>
+    </div>
+    <script>
+
+        const qcon=document.getElementById("questioncontainer");
+        const opt=document.getElementById("optioncontainer");
+        const sc=document.getElementById("scorevalue");
+        const re=document.getElementById("res");
+        const n=document.getElementById("ne");
+        qcon.innerHTML="TO START QUIZ CLICK START QUIZ BUTTON"
+
+        let score=0;
+        let quesindex=0;
+
+        const quesbank=[
+        {
+            questions:"what is colour of sky ?",
+            options:["blue","green","yellow","black"],
+            correctanswer:"blue"
+        },
+        {
+            questions:"what is colour of grass ?",
+            options:["blue","green","yellow","black"],
+            correctanswer:"green"
+        },
+        {
+            questions:"what is colour of blackhole ?",
+            options:["blue","green","yellow","black"],
+            correctanswer:"black"
+        }
+        ]
+        function starttest()
+        {
+            score=0;
+            sc.textContent=score;
+            quesindex=0;
+            showquestions();
+        }
+        function showquestions()
+        {
+            const ques=quesbank[quesindex];
+            qcon.innerHTML=ques.questions;
+            opt.innerHTML="";
+
+            ques.options.forEach((value,index)=>
+            {
+                const li=document.createElement("li");
+                li.innerHTML=value;    
+                li.onclick=()=>
+                {
+                    checkanswer(value,ques.correctanswer);
+                }
+                opt.appendChild(li);
+
+            })  
+        }
+        function checkanswer(enteredans,cans)
+        {
+            if(enteredans===cans)
+            {
+                score++;
+            }
+            sc.textContent=score;
+        }
+        function next()
+        {
+            quesindex=quesindex+1;    
+
+            if(quesindex<quesbank.length)
+            {
+                showquestions();
+            }else{
+                endquiz();
+            }
+        }
+        function endquiz()
+        {
+            qcon.innerHTML="quix completed";
+            opt.innerHTML="IF YOU WANT TO RESTART CLICK RESTART BUTTON"
+            sc.innerHTML=`total score is ${score}`;
+        }
+        function again()
+        {
+            starttest();
+        }
+    </script>
+</body>
+</html>
